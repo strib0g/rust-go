@@ -9,6 +9,7 @@ edition = "2021"
 log = "0.4.17"
 env_logger = "0.10.0"
 bevy = "0.9.1"
+bevy_prototype_lyon = "0.7.2"
 
 [profile.dev]
 debug = true
