@@ -1,12 +1,29 @@
 mod board;
 use crate::board::{Board, Stone};
+use bevy::{
+    prelude::*, 
+    window::{WindowDescriptor, PresentMode}, 
+    DefaultPlugins, 
+    diagnostic::LogDiagnosticsPlugin};
 fn main() {
-    env_logger::init();
-    let mut game_board: Board = Board::new();
+    App::new()
+    .add_plugins(DefaultPlugins.set(WindowPlugin {
+        window: WindowDescriptor {
+            title: "go-rust".to_string(),
+            width: 500.,
+            height: 300.,
+            present_mode: PresentMode::AutoVsync,
+            ..default()
+        },
+        ..default()
+    }))
+    .add_plugin(LogDiagnosticsPlugin::default())
+    .add_startup_system(init_board)
+    .run();
 
-    game_board.place_stone(0, 0, Stone::Black);
-    game_board.place_stone(1, 1, Stone::White);
 
-    game_board.place_stone(0, 0, Stone::White);
+}
 
+fn init_board(mut commands: Commands) {
+    commands.spawn(Board::new());
 }

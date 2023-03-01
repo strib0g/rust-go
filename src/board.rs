@@ -1,3 +1,4 @@
+use bevy::prelude::Component;
 use log::debug;
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -13,6 +14,7 @@ impl Default for Stone {
     }
 }
 
+#[derive(Component)]
 pub struct Board {
     grid: [[Stone; 19]; 19],
 }
