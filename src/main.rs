@@ -12,8 +12,8 @@ fn main() {
     .add_plugins(DefaultPlugins.set(WindowPlugin {
         window: WindowDescriptor {
             title: "go-rust".to_string(),
-            width: 500.,
-            height: 300.,
+            width: 800.,
+            height: 600.,
             present_mode: PresentMode::AutoVsync,
             ..default()
         },
@@ -39,15 +39,16 @@ fn init_board(mut commands: Commands) {
     commands.spawn(board);
 
     let shape = shapes::Rectangle{
-        extents: Vec2{x:10.0, y:10.0,},
+        extents: Vec2{x:25.0, y:25.0,},
         origin: shapes::RectangleOrigin::TopLeft,
     };
 
-   // commands.spawn(GeometryBuilder::build_as(&shape, DrawMode::Fill(FillMode::color(Color::ALICE_BLUE)), Transform::default()));
+    //commands.spawn(GeometryBuilder::build_as(&shape, DrawMode::Fill(FillMode::color(Color::ALICE_BLUE)), Transform::from_xyz(-250.0, -250.0, 0.0)));
 
+    // TODO use constants here
     for i in 0..board.get_size().0 {
         for j in 0..board.get_size().1 {
-            let pos = Transform::from_xyz((i as f32)*10.0, (j as f32)*10.0, 0.0);
+            let pos = Transform::from_xyz(((i-9) as f32)*26.3, ((j-9) as f32)*26.3, 0.0);
             commands.spawn(GeometryBuilder::build_as(&shape, DrawMode::Fill(FillMode::color(Color::ALICE_BLUE)), pos));
         }
     }

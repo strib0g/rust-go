@@ -39,9 +39,9 @@ impl Board {
         return true;
     }
 
-    pub fn get_size(&self) -> (u32, u32) {
-        let x = self.grid[0].len() as u32;
-        let y = self.grid.len() as u32;
+    pub fn get_size(&self) -> (i32, i32) {
+        let x = self.grid[0].len() as i32;
+        let y = self.grid.len() as i32;
         (x, y)
     }
 }
