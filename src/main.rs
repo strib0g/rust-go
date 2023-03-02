@@ -35,7 +35,8 @@ fn setup(
 }
 
 fn init_board(mut commands: Commands) {
-    let board = Board::new();
+    debug!("Begin board initialization");
+    let mut board = Board::new();
     commands.spawn(board);
 
     let shape = shapes::Rectangle{
@@ -46,10 +47,18 @@ fn init_board(mut commands: Commands) {
     //commands.spawn(GeometryBuilder::build_as(&shape, DrawMode::Fill(FillMode::color(Color::ALICE_BLUE)), Transform::from_xyz(-250.0, -250.0, 0.0)));
 
     // TODO use constants here
+    debug!("Begin spawning fields");
     for i in 0..board.get_size().0 {
         for j in 0..board.get_size().1 {
-            let pos = Transform::from_xyz(((i-9) as f32)*26.3, ((j-9) as f32)*26.3, 0.0);
-            commands.spawn(GeometryBuilder::build_as(&shape, DrawMode::Fill(FillMode::color(Color::ALICE_BLUE)), pos));
+            let x_coordinate = ((i as f32) - 9.0)*26.3;
+            let y_coordinate = ((j as f32)-9.0)*26.3;
+
+            let field = board.get_field(i, j);
+            field.set_coords((x_coordinate, y_coordinate));
+
+            trace!("Spawning field at {x_coordinate}, {y_coordinate}");
+            let pos = Transform::from_xyz(x_coordinate, y_coordinate, 0.0);     // Janky, but better than setting it and then getting it twice from field reference
+            commands.spawn(GeometryBuilder::build_as(&shape, DrawMode::Fill(FillMode::color(Color::BISQUE)), pos));
         }
     }
 }
