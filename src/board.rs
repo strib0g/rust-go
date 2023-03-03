@@ -1,3 +1,5 @@
+//TODO: The amount of casting in this file can't be right
+
 use bevy::prelude::{Component};
 use log::{debug, trace};
 
@@ -8,8 +10,6 @@ pub enum Stone {
     None,
 }
 
-// Do we need to split the coordinates up?
-// I guess it helps if for some reason I implement rectangular boards..
 #[derive(Component, Clone, Copy)]
 pub struct Field {
     coords: (f32, f32),
@@ -29,8 +29,8 @@ pub struct Board {
 
 impl Board {
     pub fn new () -> Self{
-        let new_row : [Field; 19] = [Field::default(); 19];
-        let new_grid : [[Field; 19]; 19] = [new_row; 19];
+        let new_row : [Field; crate::NO_TILES as usize] = [Field::default(); crate::NO_TILES as usize];
+        let new_grid : [[Field; crate::NO_TILES as usize]; crate::NO_TILES as usize] = [new_row; crate::NO_TILES as usize];
         
         Self { grid : new_grid}
 
