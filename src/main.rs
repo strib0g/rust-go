@@ -1,5 +1,9 @@
 mod board;
-use crate::board::{Board, Stone};
+mod player;
+use std::ptr::null;
+
+use crate::board::Board;
+use crate::player::Player;
 use bevy::{
     prelude::*, 
     window::{WindowDescriptor, PresentMode}, 
@@ -15,6 +19,18 @@ const NO_TILES: f32 = 19.;    // Used to calculate space between tiles. . Should
 // TODO how do i margins
 const TILE_COORDINATE_OFFSET: f32 = NO_TILES/2.-1.;
 const TILE_SIZE_FACTOR: f32 = RESOLUTION_Y/NO_TILES;
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum StoneColor {   // Used to describe both color of stones and which stones the player uses
+    Black,
+    White,
+    None,
+}
+
+#[derive(Resource)]
+struct CurrentPlayer {
+    color: StoneColor,
+}
 
 fn main() {
     App::new()
@@ -33,6 +49,7 @@ fn main() {
     .add_plugin(LogDiagnosticsPlugin::default())
     .add_startup_system(setup)
     .add_startup_system(init_board)
+    .add_startup_system(init_players)
     .run();
 
 
@@ -70,4 +87,19 @@ fn init_board(mut commands: Commands) {
             commands.spawn(GeometryBuilder::build_as(&shape, DrawMode::Fill(FillMode::color(Color::GRAY)), pos));
         }
     }
+}
+
+fn init_players(mut commands: Commands) {
+    let player1 = Player::new(StoneColor::Black);
+    let player2 = Player::new(StoneColor::White);
+    commands.insert_resource(CurrentPlayer{color: StoneColor::Black});      // Can't just use reference to current player due to bevy not playing nice with entity reference lifetimes
+
+    commands.spawn(player1);
+    commands.spawn(player2);
+}
+
+fn stone_placement(mut commands: Commands) {
+    // check current player
+    // place stone of player's color
+    // switch active player
 }

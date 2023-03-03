@@ -3,22 +3,15 @@
 use bevy::prelude::{Component};
 use log::{debug, trace};
 
-#[derive(Clone, Copy, PartialEq, Eq)]
-pub enum Stone {
-    Black,
-    White,
-    None,
-}
-
 #[derive(Component, Clone, Copy)]
 pub struct Field {
     coords: (f32, f32),
-    stone: Stone,
+    stone: crate::StoneColor,   // TODO change this to be an option
 }
 
 impl Default for Field {
     fn default() -> Field {
-        Field{coords: (0.0, 0.0), stone: Stone::None}
+        Field{coords: (0.0, 0.0), stone: crate::StoneColor::None}
     }
 }
 
@@ -36,14 +29,14 @@ impl Board {
 
     }
 
-    pub fn place_stone(&mut self, x:usize, y:usize, stone: Stone) -> bool {
-        if self.grid[x][y].stone != Stone::None {
+    pub fn place_stone(&mut self, x:usize, y:usize, stone: crate::StoneColor) -> bool {
+        if self.grid[x][y].stone != crate::StoneColor::None {
             debug!("Could not place stone in position {x}, {y}");
             return false;
         }
 
         self.grid[x][y].stone = stone;
-        debug!("Stone placed in position {x}, {y}");
+        debug!("crate::StoneColor placed in position {x}, {y}");
         return true;
     }
 
